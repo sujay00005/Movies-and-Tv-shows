@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/controller/movie-controller.dart';
 import 'package:movie_app/model/movie-model.dart';
-import 'package:movie_app/view/detail-screen.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../component/movie-card.dart';
 
@@ -24,13 +22,13 @@ class _DashboardState extends State<Dashboard> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-                toolbarHeight: 140,
+                toolbarHeight: 120,
                 title: const Text('Find Movies, Tv series, and more...',
                   maxLines: 2,
                   softWrap: true,
                   style: TextStyle(
                     overflow: TextOverflow.ellipsis,
-                    fontSize: 35,
+                    fontSize: 32,
                   ),
                 ),
         ),
@@ -41,7 +39,6 @@ class _DashboardState extends State<Dashboard> {
           child: FutureBuilder(
             future: MovieController().getMovies(),
             builder: (BuildContext context, AsyncSnapshot<List<MovieModel>> snapshot) {
-              print("${snapshot.connectionState} ☕ ${snapshot.hasData} ☕ ${snapshot.data}");
                 if (snapshot.connectionState == ConnectionState.done && !snapshot.hasData) {
                   return const Center(
                     child: SizedBox(
@@ -55,21 +52,16 @@ class _DashboardState extends State<Dashboard> {
                   return GridView.builder(
                     itemCount: 5,
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        childAspectRatio: 0.68,
+                        childAspectRatio: 0.6,
                         crossAxisCount: 2,
                         crossAxisSpacing: 20.0,
 
                     ),
                     itemBuilder: (BuildContext context, int index) {
-                      print("⏺️ ${movie.length}");
-                      return SizedBox(
-                        height: 200,
-                          child: MovieCard(movie: movie[index]));
+                      return MovieCard(movie: movie[index]);
                     },
                   );
                 }
-                print(snapshot.error);
-                print(snapshot.data);
                 return const Center(
                   child: CircularProgressIndicator(),
                 );

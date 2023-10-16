@@ -14,26 +14,32 @@ class MovieCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    double wid = MediaQuery.of(context).size.width;
+    var size = MediaQuery.of(context).size;
     return InkWell(
       onTap: (){
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetailScreen(movie: movie)));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20.0),
-            child: Image.network(
-              movie.imageUrlMedium??"",
-              height: 200,
-              width: wid/2,
-              fit: BoxFit.cover,
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: SizedBox(
+                child: Image.network(
+                  movie.imageUrlMedium??"",
+                  height: size.height/3.5,
+                  width: size.width/2-20,
+                  fit: BoxFit.cover,
 
+                ),
+              ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 20,left: 15),
+            padding: const EdgeInsets.only(top: 10,left: 0,bottom: 10),
             child: Row(
               children: [
                 Text(movie.name ??"",

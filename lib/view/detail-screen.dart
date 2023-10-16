@@ -22,7 +22,7 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
 
-    var height = MediaQuery.of(context).size.height;
+    var size = MediaQuery.of(context).size;
 
     return SafeArea(
       child: Scaffold(
@@ -30,7 +30,7 @@ class _DetailScreenState extends State<DetailScreen> {
           child: Column(
             children: [
               Container(
-                height: height*.4,
+                height: size.height*.4,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(
@@ -103,7 +103,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             child: Row(
                               children: [
                                 const Icon(Icons.star_rate_rounded,color: Colors.grey,size: 22),
-                                Text(" ${widget.movie.imdbRating} (IMDb)")
+                                Text(" ${widget.movie.imdbRating ?? 0} (IMDb)")
                               ],
                             ),
                           ),
@@ -119,7 +119,6 @@ class _DetailScreenState extends State<DetailScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
-                            flex:3,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -129,13 +128,12 @@ class _DetailScreenState extends State<DetailScreen> {
                                     fontSize: 20,
                                   ),
                                 ),
-                                Text( widget.movie.premiered != null ?" ${DateFormat("MMMM dd yyyy").format(DateTime.parse(widget.movie.premiered!))}" : "")
+                                Text( widget.movie.premiered != null ?" ${DateFormat("MMM dd yyyy").format(DateTime.parse(widget.movie.premiered!))}" : "")
                               ],
                             ),
                           ),
-                          const SizedBox(width: 30),
+
                           Expanded(
-                            flex: 4,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -145,31 +143,26 @@ class _DetailScreenState extends State<DetailScreen> {
                                     fontSize: 20,
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 200,
-                                    child:Wrap(
+                                Wrap(
                                 children: List<Widget>.generate(
                                   widget.movie.genres!.length >2 ? 2 :
                                   widget.movie.genres?.length ??0,
-                                      (int idx) {
-                                    return Padding(
-                                      padding: const EdgeInsets.only(right: 8),
-                                      child: Chip(
-                                        elevation: 10,
-                                        padding: const EdgeInsets.all(4),
-                                        backgroundColor: const Color(0xff252424),
-                                        shape: const StadiumBorder(side: BorderSide()),
-                                        shadowColor: Colors.black, //CircleAvatar
-                                        label: Text(
-                                          widget.movie.genres?[idx] ??"",
-                                        ), //Text
-                                      ),
-                                    );
+                                  (int idx) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(right: 4),
+                                  child: Chip(
+                                    elevation: 10,
+                                    padding: const EdgeInsets.all(2),
+                                    backgroundColor: const Color(0xff252424),
+                                    shape: const StadiumBorder(side: BorderSide()),
+                                    shadowColor: Colors.black, //CircleAvatar
+                                    label: Text(
+                                      widget.movie.genres?[idx] ??"",
+                                    ), //Text
+                                  ),
+                                );
                                   },
                                 ).toList(),
-                                    ),
-
-                                  // Text(widget.movie.genres.toString()),
                                 )
                               ],
                             ),
